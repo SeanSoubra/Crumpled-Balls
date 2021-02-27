@@ -1,40 +1,55 @@
-var wall, thickness
-var bullet, weight, speed
+
+const Engine = Matter.Engine;
+const World = Matter.World;
+const Bodies = Matter.Bodies;
+const Body = Matter.Body;
+
+var engine, world
+var paper, dustbin1, dustbin2, dustbin3
+var ground
+function preload()
+{
+	
+}
 
 function setup() {
-  createCanvas(1600,400);
+	createCanvas(800, 800)
+	engine = Engine.create();
+	world = engine.world;
+	//Create the Bodies Here.
+	paper = new Paper(100, 550, 20, 20, PI/2)
+	ground = new Ground(400, 700, 800, 15)
+	dustbin1 = new Dustbin(625, 682, 225, 20)
+	dustbin2 = new Dustbin(525, 610, 25, 125)
+	dustbin3 = new Dustbin(725, 610, 25, 125)
+	
+	 
 
-  speed = random(55, 90)
-  weight = random(400, 1500)
-  thickness = random(22, 83)
 
-  bullet = createSprite(50, 200, 50, 5)
-  bullet.velocityX = speed;
-  bullet.weight = random(30, 52)
-  bullet.speed = random(223, 321)
-  bullet.shapeColor = color(255)
-
-  wall = createSprite(1200, 200, thickness, height/2)
-  wall.shapeColor = color(80,80,80)
+	Engine.run(engine);
+  
 }
+
 
 function draw() {
+	Engine.update(engine);
+  rectMode(CENTER);
   background(0);
-   hasCollided(bullet, wall);
+  
+  paper.display()
+  ground.display()
+  dustbin1.display()
+  dustbin2.display()
+  dustbin3.display()
+  
   drawSprites();
+ 
 }
 
-function hasCollided(bullet, wall){
-  if(wall.x - bullet.x < (bullet.width + wall.width)/2){
-bullet.velocityX = 0;
-var damage =  0.5 * weight * speed * speed/(thickness* thickness* thickness);
+function keyPressed(){
 
-if(damage > 10){
-  wall.shapeColor = color(255, 0, 0)
+	if(keyCode === UP_ARROW){
+	Matter.Body.applyForce(paper.body, paper.body.position, {x: 60, y: -60})
+	}
 }
 
-if(damage < 10){
-  wall.shapeColor = color(0, 255, 0)
-}
-  }
-}
