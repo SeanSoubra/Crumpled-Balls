@@ -1,24 +1,21 @@
-class Dustbin{
+class Image{
 
     constructor(x, y, width, height){
-        var options ={
-            isStatic: true
-        }
 
     this.width = width;
     this.height = height;
-    this.body = Bodies.rectangle(x, y, width, height, options)
+    this.image = loadImage("Images/dustbinObject.png")
+    this.body = Bodies.rectangle(x, y, width, height)
     World.add(world, this.body)
     }
 
     display(){
 
-        var dustbinpos = this.body.position
+        var imagepos = this.body.position
 
         push()
-        translate(dustbinpos.x, dustbinpos.y)
-        fill("black")
-        stroke("white")
+        translate(imagepos.x, imagepos.y)
+        image(this.image, 0, 0, this.width, this.height)
         rectMode(CENTER)
         rect(0, 0, this.width, this.height)
         pop()
